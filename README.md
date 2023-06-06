@@ -1,7 +1,7 @@
 # HackTU
 
 ## Description
-This is a song recognition app wherein you type something about the song you want to search for and you get eight songs compying to your details.
+This is a song recognition app wherein you type something about the song you want to search for and you get eight songs complying to your details.
 This project was made at a hackathon organised in my college named HackTU.
 
 ## Basic Working
