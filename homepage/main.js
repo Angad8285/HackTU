@@ -10,20 +10,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'))
-// app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile); 
 
-// console.log(__dirname + '/views')
+
 
 
 app.get("/", (req, res) =>{
-    // console.log(__dirname + "/index.js")
     res.sendFile(__dirname + "/index.html")
 });
-// app.get('/style.css', function (req, res) {
-//     res.sendFile(__dirname + '/styleHome.css');
-//   });
-  
 
 app.post("/", (req, res) => {
     console.log(req.body.search)
@@ -43,8 +37,9 @@ app.post("/", (req, res) => {
     };
 
     const request = http.request(options, function (response) {
+        // if(!response)res.render("no data found")
+        // console.log(response)
         const chunks = [];
-        // console.log(response);
 
         response.on("data", function (chunk) {
             chunks.push(chunk);
@@ -57,17 +52,17 @@ app.post("/", (req, res) => {
             var titles = [];
             var artistName = [];
             var url = [];
-            for (let i = 0; i < 8; i++) {
-                images.push(json.hits[i].result.header_image_thumbnail_url)
-                titles.push(json.hits[i].result.title)
-                artistName.push(json.hits[i].result.artist_names)
-                url.push(json.hits[i].result.relationships_index_url)
+            for (let i = 0; i < 8 && i < json.hits.length-1; i++) {
+                // if (json.hits[i].result){
+                    images.push(json.hits[i].result.header_image_thumbnail_url)
+                    titles.push(json.hits[i].result.title)
+                    artistName.push(json.hits[i].result.artist_names)
+                    url.push(json.hits[i].result.relationships_index_url)
+                // } else {
+                    // res.write("no further results")
+                // }
+
             }
-           
-            // for (let l = 0; l < json.hits.length; l++) {
-            //     // console.log(json.hits[l].result)
-            //     console.log(url[l])
-            // }
             console.log(url[0])
             res.render('cardPage', {
                 titles: titles,
@@ -75,17 +70,9 @@ app.post("/", (req, res) => {
                 artistName: artistName,
                 url: url
             });
-            // console.log(hits);
-            // console.log(body.toString().hits[0].result.full_title);
-            // console.log(body.hits[0].toString());
         });
     });
-
-
-// res.sendFile(__dirname + "/cardPage.ejs")
-
 request.end();
-
 });
 
 app.listen(300, () => {
@@ -101,7 +88,6 @@ function toUrl(search)
             str+="%20";
         else 
             str+=search.charAt(i);
-    
     }
     return str;
 }

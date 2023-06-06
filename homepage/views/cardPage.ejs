@@ -18,13 +18,13 @@
       <div class="container text-center">
         <div class="row gy-3 my-3">
 
-          <% for(var i = 0; i<8; i++) { %>
+          <% for(var i = 0; i<images.length  ; i++) { %>
             <div class="card"><img src=<%= images[i]%> alt="A City skyline at sunset"/>
               <div class="text">
                 <h2 data-splitting=""> <%=titles[i] %></h2>
                 <p data-splitting="">-<%= artistName[i]%></p>
                 <button>
-                  <a href=<%= url[i] %>> Hey </a>
+                  <a href=<%= url[i] %>> Lyrics </a>
                 </button>
               </div>
             </div>
