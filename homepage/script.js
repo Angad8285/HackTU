@@ -8,15 +8,22 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
-// app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static('public'))
+// app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile); 
 
-
+// console.log(__dirname + '/views')
 
 
 app.get("/", (req, res) =>{
     // console.log(__dirname + "/index.js")
     res.sendFile(__dirname + "/index.html")
 });
+// app.get('/style.css', function (req, res) {
+//     res.sendFile(__dirname + '/styleHome.css');
+//   });
+  
 
 app.post("/", (req, res) => {
     console.log(req.body.search)
@@ -50,22 +57,18 @@ app.post("/", (req, res) => {
             var titles = [];
             var artistName = [];
             var url = [];
-            for (let i = 0; i < json.hits.length; i++) {
+            for (let i = 0; i < 8; i++) {
                 images.push(json.hits[i].result.header_image_thumbnail_url)
+                titles.push(json.hits[i].result.title)
+                artistName.push(json.hits[i].result.artist_names)
+                url.push(json.hits[i].result.relationships_index_url)
             }
-            for (let j= 0; j < json.hits.length; j++) {
-                titles.push(json.hits[j].result.full_title)
-            }
-            for (let k = 0; k < json.hits.length; k++) {
-                artistName.push(json.hits[k].result.artist_names)
-            }
-            for (let l = 0; l < json.hits.length; l++) {
-                url.push(json.hits[l].result.relationships_index_url)
-            }
+           
             // for (let l = 0; l < json.hits.length; l++) {
             //     // console.log(json.hits[l].result)
             //     console.log(url[l])
             // }
+            console.log(url[0])
             res.render('cardPage', {
                 titles: titles,
                 images: images,
@@ -79,7 +82,7 @@ app.post("/", (req, res) => {
     });
 
 
-res.sendFile(__dirname + "/cardPage.ejs")
+// res.sendFile(__dirname + "/cardPage.ejs")
 
 request.end();
 
@@ -102,7 +105,3 @@ function toUrl(search)
     }
     return str;
 }
-
-
-
-
