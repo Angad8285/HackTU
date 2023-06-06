@@ -37,8 +37,6 @@ app.post("/", (req, res) => {
     };
 
     const request = http.request(options, function (response) {
-        // if(!response)res.render("no data found")
-        // console.log(response)
         const chunks = [];
 
         response.on("data", function (chunk) {
@@ -53,15 +51,10 @@ app.post("/", (req, res) => {
             var artistName = [];
             var url = [];
             for (let i = 0; i < 8 && i < json.hits.length-1; i++) {
-                // if (json.hits[i].result){
                     images.push(json.hits[i].result.header_image_thumbnail_url)
                     titles.push(json.hits[i].result.title)
                     artistName.push(json.hits[i].result.artist_names)
                     url.push(json.hits[i].result.relationships_index_url)
-                // } else {
-                    // res.write("no further results")
-                // }
-
             }
             console.log(url[0])
             res.render('cardPage', {
